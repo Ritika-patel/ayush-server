@@ -236,7 +236,7 @@ exports.fetchDetails = async (req, res) => {
 
 
 exports.updateDetail = async (req, res) => {
-  const id = req.params.id;
+  const user_id = req.body.user_id;
   const opening_time = req.body.opening_time;
   const closing_time = req.body.closing_time;
   const total_beds = req.body.total_beds;
@@ -245,7 +245,7 @@ exports.updateDetail = async (req, res) => {
   try {
     const detail = await Detail.findOne({
       where: {
-        id: id
+        user_id: user_id
       }
     });
 
@@ -263,7 +263,7 @@ exports.updateDetail = async (req, res) => {
       },
       {
         where: {
-          id: id
+          user_id: user_id
         }
       }
     );
@@ -271,7 +271,7 @@ exports.updateDetail = async (req, res) => {
     // Fetch the updated detail
     const updatedDetail = await Detail.findOne({
       where: {
-        id: id
+        user_id: user_id
       }
     });
 
