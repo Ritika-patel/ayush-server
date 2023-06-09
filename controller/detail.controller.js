@@ -193,31 +193,31 @@ exports.fetchSingleDetail = async (req, res) => {
 exports.fetchDetails = async (req, res) => {
   //const user_id = req.body.user_id
 
-  let page_no = req.body.page_no - 1;
-  console.log(page_no);
+  // let page_no = req.body.page_no - 1;
+  // console.log(page_no);
 
-  let max = 10;
-  let start = page_no * max;
+  // let max = 10;
+  // let start = page_no * max;
 
   try {
     const detail = await Detail.findAndCountAll({
       // where:{
       //   user_id: user_id,
       // },
-      limit: max,
-      offset: start,
+      // limit: max,
+      // offset: start,
     });
 
     if (detail) {
-      const totalPages = Math.ceil(detail.count / max);
+      // const totalPages = Math.ceil(detail.count / max);
       return response.responseHelper(
         res,
         true,
         {
-          current_page: Number(page_no) + 1,
-          max: max,
-          total_pages: totalPages,
-          count: detail.count,
+          // current_page: Number(page_no) + 1,
+          // max: max,
+          // total_pages: totalPages,
+          // count: detail.count,
           data: detail.rows,
         },
         "Fetch details successful"

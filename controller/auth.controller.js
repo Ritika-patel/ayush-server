@@ -8,6 +8,7 @@ const response = require("../helpers/response.helper")
 
 const db = require("../models")
 const User = db.user
+const Detail = db.detail
 
 generateLoginData = (user) => {
     const token = jwt.sign(
@@ -183,65 +184,58 @@ exports.getUsers = async (req, res) => {
   }
 }
 
-
 exports.DeleteUser = async (req, res) => {
   const userId = req.params.id;
-
-  if (!req.headers.authorization) {
-    return response.responseHelper(
-      res,
-      false,
-      "Unauthorized",
-      "Please provide a valid access token"
-    );
-  }
-
-  const token = req.headers.authorization.replace('Bearer ', '');
+  console.log(userId);
 
   try {
-    // Verify the access token
-    const decoded = jwt.verify(token, config.secret);
-
-    // Check if the user ID in the token matches the requested user ID
-    if (decoded.id !== userId) {
-      return response.responseHelper(
-        res,
-        false,
-        "Unauthorized",
-        "You are not authorized to delete this user"
-      );
-    }
-
-    // Perform the delete operation
-    const user = await User.destroy({
+    const user = await User.findOne({
       where: {
         id: userId,
       },
     });
-
     if (!user) {
       return response.responseHelper(
         res,
         false,
-        "Invalid id",
-        "Identification failed"
-      );
-    } else {
-      return response.responseHelper(
-        res,
-        true,
-        "Deleted Successfully",
-        `User with id: ${userId} is deleted successfully`
+        "Error",
+        "This User does not exist"
       );
     }
-  } catch (err) {
-    console.error(err);
-    return response.responseHelper(
-      res,
-      false,
-      "Something went wrong",
-      "Delete operation failed"
-    );
+
+    // Start a transaction to ensure data consistency
+    //const transaction = await sequelize.transaction();
+
+    try {
+      // Delete the associated details
+      await Detail.destroy({
+        where: {
+          user_id: userId,
+        },
+        // transaction,
+      });
+
+      // Delete the user
+      await User.destroy({
+        where: {
+          id: userId,
+        },
+        // transaction,
+      });
+
+      // Commit the transaction
+      // await transaction.commit();
+
+      return response.responseHelper(res, true, user, "Deleted user successfully");
+    } catch (error) {
+      // Rollback the transaction if an error occurs
+      // await transaction.rollback();
+      throw error;
+    }
+  } catch (error) {
+    console.log(error);
+    return response.responseHelper(res, false, "Error", "Something went wrong");
   }
 };
+
 

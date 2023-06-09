@@ -24,7 +24,8 @@ db.detail = require("./detail/detail.model")(sequelize, Sequelize)
 
 db.detail.belongsTo(db.user, {
   foreignKey: 'user_id',
-  targetKey: 'id', // Add this line to specify the target key
+  //targetKey: 'id', // Add this line to specify the target key
+  onDelete: 'CASCADE'
 });
 
 
