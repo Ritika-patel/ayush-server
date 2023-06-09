@@ -18,3 +18,5 @@ if (CONFIG.app === "production") {
 module.exports = CONFIG;
 
 
+// postgres://postgres:Ritika@123@localhost:5432/ayushdatabase
+// postgres://postgres:Ritika@123@localhost:8000/ayushdatabase
