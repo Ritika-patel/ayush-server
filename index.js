@@ -30,6 +30,11 @@ app.use(cors({
     }
 }));
 
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+  })
+
+
 //Auth Routes
 const auth = require("./routes/auth.routes")
 app.use("/auth", auth)
