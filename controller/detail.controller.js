@@ -208,8 +208,8 @@ exports.fetchDetails = async (req, res) => {
           // max: max,
           // total_pages: totalPages,
           // count: detail.count,
-         count: 1,
-          //  data: detail.rows,
+ 
+           data: detail.rows,
   
         },
         "Fetch details successful"
