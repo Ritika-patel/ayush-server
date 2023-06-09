@@ -208,7 +208,9 @@ exports.fetchDetails = async (req, res) => {
           // max: max,
           // total_pages: totalPages,
           // count: detail.count,
-          data: detail.rows,
+         count: 1,
+          //  data: detail.rows,
+  
         },
         "Fetch details successful"
       );
@@ -219,7 +221,7 @@ exports.fetchDetails = async (req, res) => {
       res,
       false,
       "Error",
-      "Something went wrong"
+      "Something really  went wrong"
     );
   }
 };
