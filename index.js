@@ -9,16 +9,23 @@ app.use(express.json())
 
 const allowedOrigins = ['http://localhost:3000'];
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*"); // Replace "*" with the appropriate origin(s) or use a whitelist
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+  });
+
 app.use(cors({
     origin(origin, callback) {
         //allow requests with no origin
         //(like mobile apps or curl requests)
-        // if (!origin) return callback(null, true);
-        // if (allowedOrigins.indexOf(origin) === -1) {
-        //     const msg = 'The CORS policy for this site does not ' +
-        //         'allow access from the specified Origin.';
-        //     return callback(new Error(msg), false);
-        // }
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
         return callback(null, true);
     }
 }));

@@ -26,7 +26,7 @@ exports.addDetail = async (req, res) => {
     specifications,
     functionalities
   } = req.body;
-  
+
   const existingDetail = await Detail.findOne({
     where: {
       user_id: user_id
@@ -38,9 +38,10 @@ exports.addDetail = async (req, res) => {
       res,
       false,
       "already added details",
-      "This detail has beed already added"
+      "This detail has already been added"
     );
   }
+
   // Check required fields
   if (
     !name ||
@@ -57,7 +58,7 @@ exports.addDetail = async (req, res) => {
       res,
       false,
       "Failed to add",
-      "Fill all the required fields"
+      "Please fill in all the required fields"
     );
   }
 
@@ -99,32 +100,22 @@ exports.addDetail = async (req, res) => {
       "Opening time must be less than closing time."
     );
   }
-   
-
-
 
   try {
+    const existingUser = await User.findOne({
+      where: {
+        id: user_id,
+      }
+    });
 
-    //why this is nogt working
-    // const existingUser = await User.findOne({
-    //   where: {
-    //     id: user_id,
-    //   }
-    // });
-    
-    // if (!existingUser) {
-    //   return response.responseHelper(
-    //     res,
-    //     false,
-    //     "User does not exist",
-    //     "The provided ID does not exist in the users"
-    //   );
-    // }
-    //why this is not working
-
-
-
-
+    if (!existingUser) {
+      return response.responseHelper(
+        res,
+        false,
+        "User does not exist",
+        "The provided user ID does not exist"
+      );
+    }
 
     const detail = await Detail.create({
       name,
@@ -145,13 +136,11 @@ exports.addDetail = async (req, res) => {
       functionalities
     });
 
-
-
     return response.responseHelper(
       res,
       true,
       { detail },
-      "Add details successful"
+      "Details added successfully"
     );
   } catch (error) {
     console.log(error);
@@ -163,6 +152,7 @@ exports.addDetail = async (req, res) => {
     );
   }
 };
+
 
 
 exports.fetchSingleDetail = async (req, res) => {
