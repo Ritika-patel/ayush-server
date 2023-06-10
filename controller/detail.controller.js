@@ -208,7 +208,6 @@ exports.fetchDetails = async (req, res) => {
           // max: max,
           // total_pages: totalPages,
           // count: detail.count,
- 
            data: detail.rows,
   
         },
