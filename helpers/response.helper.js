@@ -5,7 +5,7 @@ exports.responseHelper = (res, status, data, message) => {
       data,
       message,
     };
-    res.send(data);
+    if(resStatus==="success") res.send(data);
     res.status(200).send(validRes);
   };
   
