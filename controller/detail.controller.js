@@ -215,7 +215,7 @@ exports.fetchDetails = async (req, res) => {
       );
     }
   } catch (error) {
-    console.loh("There is an error occured")
+    console.log("There is an error occured")
     console.log(error);
     return response.responseHelper(
       res,
